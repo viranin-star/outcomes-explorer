@@ -64,7 +64,8 @@ export function EarningsChart({ earnings, payback, tuitionMidpoint }: Props) {
             width={48}
           />
           <Tooltip
-            formatter={(value: number | string) => [`$${Number(value).toLocaleString()}`, ""]}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            formatter={(value: any) => [`$${Number(value).toLocaleString()}`, ""]}
           />
           {/* 25th percentile bar (bottom portion) */}
           <Bar dataKey="p25" stackId="a" fill="transparent" />
