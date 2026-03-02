@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Program {
+  id                 String   @id @default(cuid())
+  name               String
+  slug               String   @unique
+  degreeLevel        String
+  cipCode            String?
+  institution        String?
+  tuitionMin         Int?
+  tuitionMax         Int?
+  transparencyScore  Int?
+  hasAuditedOutcomes Boolean  @default(false)
+  hasSelfReported    Boolean  @default(false)
+  dataYear           Int?
+  hasPlacementRate   Boolean  @default(false)
+  hasEmployerList    Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  occupations ProgramOccupation[]
+  earnings    ProgramEarnings[]
+}
+
+model Occupation {
+  socCode         String  @id
+  onetCode        String?
+  title           String
+  description     String?
+  industryGroup   String?
+  requiresLicense Boolean @default(false)
+  licenseNotes    String?
+
+  programs ProgramOccupation[]
+  earnings OccupationalEarnings[]
+}
+
+model ProgramOccupation {
+  id               String  @id @default(cuid())
+  programId        String
+  socCode          String
+  commonality      String
+  probabilityScore Float?
+
+  program    Program    @relation(fields: [programId], references: [id])
+  occupation Occupation @relation(fields: [socCode], references: [socCode])
+}
+
+model ProgramEarnings {
+  id          String @id @default(cuid())
+  programId   String
+  cohortYear  Int?
+  earlyP25    Int?
+  earlyMedian Int?
+  earlyP75    Int?
+  midP25      Int?
+  midMedian   Int?
+  midP75      Int?
+  noDegreeMed Int?
+  source      String?
+
+  program Program @relation(fields: [programId], references: [id])
+}
+
+model OccupationalEarnings {
+  id         String  @id @default(cuid())
+  socCode    String
+  region     String?
+  year       Int
+  p25        Int?
+  median     Int?
+  p75        Int?
+  growthRate Float?
+
+  occupation Occupation @relation(fields: [socCode], references: [socCode])
+}
