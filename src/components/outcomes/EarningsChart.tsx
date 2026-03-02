@@ -26,21 +26,21 @@ function fmt(n: number) {
 export function EarningsChart({ earnings, payback, tuitionMidpoint }: Props) {
   const data = [
     {
-      label: "No Degree\nBaseline",
+      label: "No Degree",
       p25: 0,
       median: earnings.noDegreeMed ?? 0,
       p75: 0,
       isBaseline: true,
     },
     {
-      label: "Early Career\n(0–3 yr)",
+      label: "Early (0–3yr)",
       p25: earnings.early.p25 ?? 0,
       median: earnings.early.median ?? 0,
       p75: earnings.early.p75 ?? 0,
       isBaseline: false,
     },
     {
-      label: "Mid Career\n(5–10 yr)",
+      label: "Mid (5–10yr)",
       p25: earnings.mid.p25 ?? 0,
       median: earnings.mid.median ?? 0,
       p75: earnings.mid.p75 ?? 0,
@@ -55,7 +55,7 @@ export function EarningsChart({ earnings, payback, tuitionMidpoint }: Props) {
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="label"
-            tick={{ fontSize: 12, whiteSpace: "pre" }}
+            tick={{ fontSize: 12 }}
             interval={0}
           />
           <YAxis
